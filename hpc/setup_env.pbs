@@ -1,0 +1,12 @@
+#!/bin/bash
+#PBS -N ionff_setup
+#PBS -l select=1:ncpus=4:mem=16gb:scratch_local=20gb
+#PBS -l walltime=02:00:00
+#PBS -j oe
+# Build the conda environment on a compute node. Everything, including the conda and pip caches, stays under STORAGE.
+# Submit: qsub -v STORAGE=$STORAGE,IONFF_REPO=$PWD hpc/setup_env.pbs
+
+: "${STORAGE:?STORAGE not set}"
+export HOME="$STORAGE/home"
+mkdir -p "$HOME"
+bash "${IONFF_REPO:-$PBS_O_WORKDIR}/hpc/setup_env.sh"

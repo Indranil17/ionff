@@ -1,0 +1,13 @@
+name: ionff
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - numpy
+  - scipy
+  - ase
+  - matplotlib
+  - psi4
+  - openmm
+  - rdkit
+  - pytest

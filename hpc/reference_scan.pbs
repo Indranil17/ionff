@@ -1,0 +1,15 @@
+#!/bin/bash
+#PBS -N ionff_scan
+#PBS -l select=1:ncpus=8:mem=16gb:scratch_local=40gb
+#PBS -l walltime=24:00:00
+#PBS -J 0-5
+#PBS -j oe
+# One array task per solvent. Resumable: resubmit the same command if a task hits the walltime.
+# Submit: qsub -v STORAGE=$STORAGE,IONFF_REPO=$PWD hpc/reference_scan.pbs
+# Afterwards: cat data/reference/sapt0_scan_*.jsonl > data/reference/sapt0_scan.jsonl
+
+source "${IONFF_REPO:-$PBS_O_WORKDIR}/hpc/common.sh"
+SOLVENTS=(water methanol dme acetone ec dmc)
+S="${SOLVENTS[$PBS_ARRAY_INDEX]}"
+export PSI4_MEMORY="12 GB"
+REF_OUT="data/reference/sapt0_scan_${S}.jsonl" python scripts/run_reference.py "$S"

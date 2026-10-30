@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -N ionff_md
+#PBS -l select=1:ncpus=8:mem=12gb
+#PBS -l walltime=04:00:00
+#PBS -J 1-8
+#PBS -j oe
+# One array task per random seed and parameter set: NPT equilibration, then NVE production of Na+ in SPC/E water.
+# Task index 1 to 8 gives seeds 1 to 4, each with the term resolved and the total only parameters.
+# Prototype length: 50 ps NPT then 400 ps NVE. The run saves <tag>_partial.npz every 100 frames, so a walltime kill keeps data.
+# Runs on CPU. For a GPU add a GPU queue and resource line and set MD_PLATFORM=CUDA.
+# Submit: qsub -v STORAGE=$STORAGE,IONFF_REPO=$PWD hpc/md.pbs
+
+source "${IONFF_REPO:-$PBS_O_WORKDIR}/hpc/common.sh"
+PARAMS=(term_resolved total_only)
+export MD_SEED=$(( (PBS_ARRAY_INDEX - 1) / 2 + 1 )) MD_PLATFORM=CPU OPENMM_CPU_THREADS="$NCPUS" MD_EQUIL_PS=50
+python scripts/run_md.py "results/params_${PARAMS[$(( (PBS_ARRAY_INDEX - 1) % 2 ))]}.json" 400

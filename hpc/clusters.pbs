@@ -1,0 +1,13 @@
+#!/bin/bash
+#PBS -N ionff_clusters
+#PBS -l select=1:ncpus=8:mem=24gb:scratch_local=60gb
+#PBS -l walltime=48:00:00
+#PBS -J 1-6
+#PBS -j oe
+# One array task per Na+(H2O)n size. Resumable.
+# Submit: qsub -v STORAGE=$STORAGE,IONFF_REPO=$PWD hpc/clusters.pbs
+# Afterwards: cat data/reference/sapt0_clusters_*.jsonl > data/reference/sapt0_clusters.jsonl
+
+source "${IONFF_REPO:-$PBS_O_WORKDIR}/hpc/common.sh"
+export PSI4_MEMORY="18 GB"
+CLUSTER_OUT="data/reference/sapt0_clusters_n${PBS_ARRAY_INDEX}.jsonl" python scripts/run_clusters.py "$PBS_ARRAY_INDEX"

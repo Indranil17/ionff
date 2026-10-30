@@ -1,0 +1,19 @@
+{
+  "params": "params_total_only.json",
+  "seed": 3,
+  "box_nm": 2.9496245433238952,
+  "n_na": 4,
+  "equil_ps": 50.0,
+  "prod_ps": 400.0,
+  "Na_O_peak_nm": 0.2325,
+  "first_minimum_nm": 0.2975,
+  "coordination_number": 5.891875000000001,
+  "D_raw_m2_per_s": 3.101083961165141e-11,
+  "D_yeh_hummer_m2_per_s": 3.1916673252523383e-10,
+  "D_block_error_m2_per_s": 6.0812240340662805e-12,
+  "experiment": {
+    "D_m2_per_s": 1.33e-09,
+    "Na_O_nm": 0.24,
+    "coordination": "4 to 8 (Ohtaki and Radnai 1993)"
+  }
+}
